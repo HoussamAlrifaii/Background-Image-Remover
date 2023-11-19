@@ -128,7 +128,6 @@
             console.log(fileInput.files);
             const image = fileInput.files[0];
 
-            // Multipart file
             const formData = new FormData();
             formData.append('image_file', image);
             formData.append('size', 'auto');
@@ -157,7 +156,7 @@
         }
 
         function downloadFile() {
-            var anchorElement = document.createElement('a'); //<a></a>
+            var anchorElement = document.createElement('a');
             anchorElement.href = imageURL;
             anchorElement.download = 'naciasv.png';
             document.body.appendChild(anchorElement);
