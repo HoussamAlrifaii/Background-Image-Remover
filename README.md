@@ -1,1 +1,1 @@
-Background Image Remover
+a game-changing technology that allows you to simultaneously remove the backgrounds of pictures in a swirl. Wave goodby to repetitive manual editing and say hi to perfect, instantaneous editing. Our technology utilises advanced algorithms developed specifically to detect and remove backgrounds, giving you clear and bright images that stand out.
