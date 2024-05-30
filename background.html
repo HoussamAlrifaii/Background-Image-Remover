@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Remover</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="assets/images/photo-1524169113253-c6ba17f68498.jpeg" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url(bg.svg);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: rgba(255, 255, 255, 0.5); 
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        .jumbotron {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+            color: #343a40;
+            text-align: center;
+        }
+
+        h2 {
+            color: #6c757d;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .custom-file-label,
+        .btn-primary,
+        .btn-warning,
+        .btn-success,
+        .btn-home {
+            border-radius: 20px;
+        }
+
+        .custom-file-input {
+            border-radius: 20px; 
+            border: 2px solid #007bff; 
+        }
+
+        .btn-primary,
+        .btn-warning,
+        .btn-success,
+        .btn-home {
+            background-color: #007bff; 
+            border-color: #007bff;
+            color: #fff; 
+        }
+
+        .btn-primary:hover,
+        .btn-warning:hover,
+        .btn-success:hover,
+        .btn-home:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+            margin: 30px auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="display-4">Background Image Remover</h1>
+            <h2>No need to worry about a bad background. With this technology, you can easily remove any background from
+                any image.</h2>
+            <form>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input rounded-pill" id="fileInput">
+                    <label class="custom-file-label" for="fileInput">Choose file</label>
+                </div>
+                <button id="uploadButton" class="btn btn-primary btn-block mt-3" type="button" onclick="submitHandler()">Upload</button>
+            </form>
+        </div>
+
+        <div id="resultContainer"></div>
+
+        <button id="downloadButton" class="btn btn-primary btn-block mt-4" onclick="downloadFile()" disabled>Download Image</button>
+
+        <button id="homeButton" class="btn btn-home btn-block mt-3" onclick="goToHome()">Return to Home</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script>
+        let imageURL;
+
+        function submitHandler() {
+            const fileInput = document.getElementById('fileInput');
+            const image = fileInput.files[0];
+
+            const formData = new FormData();
+            formData.append('image_file', image);
+            formData.append('size', 'auto');
+
+            const apiKey = 'UkH2ptVszpceBpb3Kmq4ewwg';
+
+            fetch('https://api.remove.bg/v1.0/removebg', {
+                method: 'POST',
+                headers: {
+                    'X-Api-Key': apiKey
+                },
+                body: formData
+            })
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error('Failed to process the image. Please try again.');
+                    }
+                    return response.blob()
+                })
+                .then(function (blob) {
+                    const url = URL.createObjectURL(blob);
+                    imageURL = url;
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.classList.add('img-thumbnail');
+                    document.getElementById('resultContainer').innerHTML = '';
+                    document.getElementById('resultContainer').appendChild(img);
+                    document.getElementById('downloadButton').disabled = false;
+                })
+                .catch(function (error) {
+                    alert(error.message);
+                });
+        }
+
+        function downloadFile() {
+            if (!imageURL) {
+                alert('No image available to download.');
+                return;
+            }
+
+            var anchorElement = document.createElement('a');
+            anchorElement.href = imageURL;
+            anchorElement.download = 'background_removed_image.png';
+            document.body.appendChild(anchorElement);
+
+            anchorElement.click();
+
+            document.body.removeChild(anchorElement);
+        }
+
+        function goToHome() {
+           
+            window.location.href = "index.html"; 
+        }
+    </script>
+</body>
+
+</html>
