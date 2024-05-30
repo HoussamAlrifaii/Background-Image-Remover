@@ -1,1 +1,1 @@
-A game-changing technology that allows you to simultaneously remove the backgrounds of pictures in a swirl. Wave goodbye to repetitive manual editing and say hi to perfect, instantaneous editing. Using the latest in technology, our algorithms are designed to precisely extract and remove backgrounds, providing you with polished images free of artifacts.
+The Background Image Remover website is a user-friendly platform that allows users to effortlessly remove backgrounds from any image with a login page.
